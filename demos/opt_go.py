@@ -13,6 +13,8 @@ import importlib
 import numpy as np
 import os
 from time import perf_counter
+import matplotlib.pyplot as plt
+
 
 
 parser = argparse.ArgumentParser(
@@ -173,3 +175,10 @@ np.save(f"{demo}/data/go_progress_nc_{n}_{method}", nc)
 with open(f"{demo}/data/go_{target:.0f}_{method}.log", "w+") as f:
     note = " (FAIL)" if failed else ""
     f.write(f"cpu_time: {cpu_time}{note}\n")
+
+plot_dir = create_directory(f"{demo}/plots")
+fig, axes = plt.subplots()
+triplot(op.mesh_progress[-1], axes=axes)
+axes.legend()
+plt.tight_layout()
+plt.savefig(f"{plot_dir}/mesh_go_{method}.png")
